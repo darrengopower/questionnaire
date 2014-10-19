@@ -1,0 +1,14 @@
+{% extends "poll/base.html" %}
+{% block content %}
+
+<h1>Последние опросы</h1>
+{% if latest_questions_list %}
+    <ul>
+        {% for question in latest_questions_list %}
+            <li><a href="{% url "poll:detail" question.pk %}">{{ question.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Опросы не найдены.</p>
+{% endif %}
+{% endblock content %}

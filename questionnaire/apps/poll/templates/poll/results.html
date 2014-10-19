@@ -1,0 +1,13 @@
+
+{% extends "poll/base.html" %}
+{% block content %}
+<h1>{{ question.title }}</h1>
+
+<ul>
+{% for answer in question.answer_set.all|dictsortreversed:"votes" %}
+    <li>{{ answer.answer }} - голосов: {{ answer.votes }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'poll:detail' question.id %}">Голосовать еще раз</a>
+{% endblock content %}

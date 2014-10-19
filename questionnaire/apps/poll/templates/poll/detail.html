@@ -1,0 +1,28 @@
+{% extends "poll/base.html" %}
+{% block content %}
+{% if question.is_active %}
+        {% if voted_already %}
+            <p>Вы уже голосовали в этом опросе.</p>
+            <a href="{% url "poll:results" question.id %}">Показать результаты</a>
+    {% else %}
+        <p>Просим Вас принять участие в опросе</p>
+        <h1>{{ question.title }}</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url "poll:vote" question.id %}" method="post">
+    {% csrf_token %}
+    {% for answer in question.answer_set.all %}
+        <input type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}" />
+        <label for="answer{{ forloop.counter }}">{{ answer.answer }}</label>
+
+    {% endfor %}
+    <input type="submit" value="Голосовать" />
+</form>
+    {% endif %}
+    {% else %}
+    <p>Звиняйте, опрос снят с публикации.</p>
+{% endif %}
+{% endblock content %}
